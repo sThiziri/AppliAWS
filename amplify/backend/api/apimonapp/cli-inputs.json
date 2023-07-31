@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "paths": {
+    "/items": {
+      "name": "/items",
+      "lambdaFunction": "monappapi",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read"
+        ]
+      }
+    }
+  }
+}

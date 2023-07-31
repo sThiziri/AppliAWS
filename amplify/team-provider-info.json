@@ -1,0 +1,36 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-monapp-dev-101352-authRole",
+      "UnauthRoleArn": "arn:aws:iam::441651176020:role/amplify-monapp-dev-101352-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::441651176020:role/amplify-monapp-dev-101352-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "amplify-monapp-dev-101352-deployment",
+      "UnauthRoleName": "amplify-monapp-dev-101352-unauthRole",
+      "StackName": "amplify-monapp-dev-101352",
+      "StackId": "arn:aws:cloudformation:eu-west-3:441651176020:stack/amplify-monapp-dev-101352/313c8730-2f7a-11ee-b904-0a3f620561c2",
+      "AmplifyAppId": "dmc1iuo7bnrkj",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-monapp-dev-101352-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
+    },
+    "categories": {
+      "auth": {
+        "monappc0365899": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dmc1iuo7bnrkj",
+          "type": "manual"
+        }
+      },
+      "function": {
+        "monappapi": {
+          "deploymentBucketName": "amplify-monapp-dev-101352-deployment",
+          "s3Key": "amplify-builds/monappapi-716c73756b642f6e4169-build.zip"
+        }
+      },
+      "api": {
+        "apimonapp": {}
+      }
+    }
+  }
+}
