@@ -1,0 +1,14 @@
+{
+  "resourceName": "appUserStorage",
+  "policyUUID": "c4033725",
+  "bucketName": "appuserstorage35434654354654",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

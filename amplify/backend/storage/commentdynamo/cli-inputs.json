@@ -1,0 +1,12 @@
+{
+  "resourceName": "commentdynamo",
+  "tableName": "commentdynamo",
+  "partitionKey": {
+    "fieldName": "comment",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": [
+    "commentdynamoTriggerd114d564"
+  ]
+}

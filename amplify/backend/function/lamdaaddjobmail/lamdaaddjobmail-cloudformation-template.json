@@ -47,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "monappapi",
+            "lamdaaddjobmail",
             {
               "Fn::Join": [
                 "",
                 [
-                  "monappapi",
+                  "lamdaaddjobmail",
                   "-",
                   {
                     "Ref": "env"
@@ -89,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "monappLambdaRolee5c55d0e",
+            "monappLambdaRoleedd3db7a",
             {
               "Fn::Join": [
                 "",
                 [
-                  "monappLambdaRolee5c55d0e",
+                  "monappLambdaRoleedd3db7a",
                   "-",
                   {
                     "Ref": "env"
@@ -144,14 +144,22 @@
                 "logs:CreateLogStream",
                 "logs:PutLogEvents"
               ],
-              "Resource": "*"
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "s3:*"
-              ],
-              "Resource": "*"
+              "Resource": {
+                "Fn::Sub": [
+                  "arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*",
+                  {
+                    "region": {
+                      "Ref": "AWS::Region"
+                    },
+                    "account": {
+                      "Ref": "AWS::AccountId"
+                    },
+                    "lambda": {
+                      "Ref": "LambdaFunction"
+                    }
+                  }
+                ]
+              }
             }
           ]
         }

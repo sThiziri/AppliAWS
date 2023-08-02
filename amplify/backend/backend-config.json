@@ -9,6 +9,14 @@
           ],
           "category": "function",
           "resourceName": "monappapi"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "lamdaaddjobmail"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -44,6 +52,27 @@
     }
   },
   "function": {
+    "commentdynamoTriggerd114d564": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "commentdynamo"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "lamdaaddjobmail": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "monappapi": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -58,6 +87,38 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_commentdynamoTriggerd114d564_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "commentdynamoTriggerd114d564"
+        }
+      ]
+    },
+    "AMPLIFY_function_commentdynamoTriggerd114d564_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "commentdynamoTriggerd114d564"
+        }
+      ]
+    },
+    "AMPLIFY_function_lamdaaddjobmail_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "lamdaaddjobmail"
+        }
+      ]
+    },
+    "AMPLIFY_function_lamdaaddjobmail_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "lamdaaddjobmail"
+        }
+      ]
+    },
     "AMPLIFY_function_monappapi_deploymentBucketName": {
       "usedBy": [
         {
@@ -89,6 +150,17 @@
           "resourceName": "amplifyhosting"
         }
       ]
+    }
+  },
+  "storage": {
+    "appUserStorage": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    },
+    "commentdynamo": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }

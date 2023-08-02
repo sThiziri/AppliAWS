@@ -2,15 +2,22 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.2.3\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
-    "CloudWatchRule": {
-      "Type": "String",
-      "Default": "NONE",
-      "Description": " Schedule Expression"
-    },
-    "deploymentBucketName": {
+    "env": {
       "Type": "String"
     },
-    "env": {
+    "storagecommentdynamoName": {
+      "Type": "String",
+      "Default": "storagecommentdynamoName"
+    },
+    "storagecommentdynamoArn": {
+      "Type": "String",
+      "Default": "storagecommentdynamoArn"
+    },
+    "storagecommentdynamoStreamArn": {
+      "Type": "String",
+      "Default": "storagecommentdynamoArn"
+    },
+    "deploymentBucketName": {
       "Type": "String"
     },
     "s3Key": {
@@ -35,24 +42,16 @@
         "aws:asset:property": "Code"
       },
       "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
-        },
         "Handler": "index.handler",
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "monappapi",
+            "commentdynamoTriggerd114d564",
             {
               "Fn::Join": [
                 "",
                 [
-                  "monappapi",
+                  "commentdynamoTriggerd114d564",
                   "-",
                   {
                     "Ref": "env"
@@ -66,9 +65,6 @@
           "Variables": {
             "ENV": {
               "Ref": "env"
-            },
-            "REGION": {
-              "Ref": "AWS::Region"
             }
           }
         },
@@ -79,8 +75,15 @@
           ]
         },
         "Runtime": "nodejs18.x",
-        "Layers": [],
-        "Timeout": 25
+        "Timeout": 25,
+        "Code": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": {
+            "Ref": "s3Key"
+          }
+        }
       }
     },
     "LambdaExecutionRole": {
@@ -89,12 +92,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "monappLambdaRolee5c55d0e",
+            "commentdynamoLambdaRoled114d564",
             {
               "Fn::Join": [
                 "",
                 [
-                  "monappLambdaRolee5c55d0e",
+                  "commentdynamoLambdaRoled114d564",
                   "-",
                   {
                     "Ref": "env"
@@ -144,17 +147,78 @@
                 "logs:CreateLogStream",
                 "logs:PutLogEvents"
               ],
-              "Resource": "*"
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "s3:*"
-              ],
-              "Resource": "*"
+              "Resource": {
+                "Fn::Sub": [
+                  "arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*",
+                  {
+                    "region": {
+                      "Ref": "AWS::Region"
+                    },
+                    "account": {
+                      "Ref": "AWS::AccountId"
+                    },
+                    "lambda": {
+                      "Ref": "LambdaFunction"
+                    }
+                  }
+                ]
+              }
             }
           ]
         }
+      }
+    },
+    "commentdynamoTriggerPolicy": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "lambda-trigger-policy-commentdynamo",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:DescribeStream",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:ListStreams"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storagecommentdynamoStreamArn"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "commentdynamoTrigger": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "DependsOn": [
+        "commentdynamoTriggerPolicy"
+      ],
+      "Properties": {
+        "BatchSize": 100,
+        "Enabled": true,
+        "EventSourceArn": {
+          "Ref": "storagecommentdynamoStreamArn"
+        },
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "LambdaFunction",
+            "Arn"
+          ]
+        },
+        "StartingPosition": "LATEST"
       }
     }
   },

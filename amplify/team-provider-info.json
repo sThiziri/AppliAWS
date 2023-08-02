@@ -26,10 +26,22 @@
         "monappapi": {
           "deploymentBucketName": "amplify-monapp-dev-101352-deployment",
           "s3Key": "amplify-builds/monappapi-716c73756b642f6e4169-build.zip"
+        },
+        "commentdynamoTriggerd114d564": {
+          "deploymentBucketName": "amplify-monapp-dev-101352-deployment",
+          "s3Key": "amplify-builds/commentdynamoTriggerd114d564-41463961643138723773-build.zip"
+        },
+        "lamdaaddjobmail": {
+          "deploymentBucketName": "amplify-monapp-dev-101352-deployment",
+          "s3Key": "amplify-builds/lamdaaddjobmail-572f6958616a49565a4e-build.zip"
         }
       },
       "api": {
         "apimonapp": {}
+      },
+      "storage": {
+        "appUserStorage": {},
+        "commentdynamo": {}
       }
     }
   }

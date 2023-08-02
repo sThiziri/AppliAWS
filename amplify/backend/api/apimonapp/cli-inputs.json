@@ -11,6 +11,19 @@
           "read"
         ]
       }
+    },
+    "/main": {
+      "name": "/main",
+      "lambdaFunction": "lamdaaddjobmail",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }
